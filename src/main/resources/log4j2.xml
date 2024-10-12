@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+	<properties>
+		<!-- 文件输出格式 -->
+		<property name="LOG_HOME" value="logs/" />
+		<property name="LOG_LEVEL" value="info" />
+		<property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} |  [traceId:%X{traceId}] -%highlight{%-5level} [%thread] %c [%L] -| %msg%n" />
+		<property name="FILE_DEADLINE" value="15d" />
+		<property name="FILE_MAX_SIZE" value="5GB" />
+	</properties>
+	<Appenders>
+
+		<Console name="Console" target="SYSTEM_OUT">
+			<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout charset="UTF-8" pattern="${LOG_PATTERN}"/>
+
+		</Console>
+
+
+
+
+		<RollingRandomAccessFile
+				name="RollingFileInfo"
+				fileName="logs/info/info.log"
+				filePattern="logs/info/info-%d{yyyy-MM-dd}-%i.log">
+			<!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+			<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout charset="UTF-8"
+						   pattern="${LOG_PATTERN}"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+			</Policies>
+			<DefaultRolloverStrategy max="20"/>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="RollingFileError" fileName="logs/error/error.log"
+								 filePattern="logs/error/error-%d{yyyy-MM-dd}-%i.log">
+			<!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout charset="UTF-8"
+						   pattern="${LOG_PATTERN}"/>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="50 MB"/>
+			</Policies>
+			<DefaultRolloverStrategy max="30"/>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="ArgsLogRollingFileTrace" fileName="logs/trace/args-log.log"
+								 filePattern="logs/trace/args-log-%d{yyyy-MM-dd}-%i.log">
+			<!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+			<ThresholdFilter level="Trace" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout charset="UTF-8"
+						   pattern="${LOG_PATTERN}"/>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="50 MB"/>
+			</Policies>
+			<DefaultRolloverStrategy max="30"/>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="TimeLogRollingFileTrace" fileName="logs/trace/time-log.log"
+								 filePattern="logs/trace/time-log-%d{yyyy-MM-dd}-%i.log">
+			<!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+			<ThresholdFilter level="Trace" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout charset="UTF-8"
+						   pattern="${LOG_PATTERN}"/>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="50 MB"/>
+			</Policies>
+			<DefaultRolloverStrategy max="30"/>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="RollingFileMetrics" fileName="logs/metrics/metrics.log"
+								 filePattern="logs/metrics/metrics-%d{yyyy-MM-dd}.log">
+			<!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+			<ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout charset="UTF-8"
+						   pattern="${LOG_PATTERN}"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="50 MB"/>
+			</Policies>
+			<DefaultRolloverStrategy max="30"/>
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+
+		<AsyncRoot level="INFO">
+			<AppenderRef ref="Console"/>
+		</AsyncRoot>
+
+		<AsyncLogger name="com.business.program.cross.border.trade" level="all" additivity="false">
+			<AppenderRef ref="RollingFileInfo"  level="all" />
+			<AppenderRef ref="RollingFileError"  level="all" />
+			<AppenderRef ref="Console"/>
+		</AsyncLogger>
+
+		<AsyncLogger name="metrics" level="OFF" additivity="false">
+			<AppenderRef ref="Console"/>
+		</AsyncLogger>
+
+
+
+		<AsyncLogger name="com.business.program.cross.border.trade.repository.mapper" level="INFO" additivity="false">
+			<AppenderRef ref="Console"/>
+		</AsyncLogger>
+
+
+	</Loggers>
+</Configuration>

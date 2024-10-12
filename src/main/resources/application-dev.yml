@@ -1,0 +1,56 @@
+management:
+  health:
+    mail:
+      enabled: false
+  server:
+    servlet:
+      context-path: /actuator
+server:
+  port: 8080
+  servlet:
+    context-path: /crossBorderTrade
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 10000
+      idle-timeout: 30000
+      max-lifetime: 900000
+      maximum-pool-size: 30
+      minimum-idle: 10
+      pool-name: HikariCP
+      validation-timeout: 1000
+    password: hshome123
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+  freemarker:
+    charset: UTF-8
+    request-context-attribute: request
+    settings:
+      new_builtin_class_resolver: safer
+      number_format: 0.##########
+    suffix: .ftl
+    templateLoaderPath: classpath:/templates/
+
+  mvc:
+    servlet:
+      load-on-startup: 0
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*/*Mapper.xml
+  type-aliases-package: com.business.program.cross.border.trade.repository.dao
+  configuration:
+    cache-enabled: false
+logging:
+  config: classpath:log4j2.xml
+  level:
+    com.business.program.cross.border.trade.repository.mapper: debug
+
+
+
