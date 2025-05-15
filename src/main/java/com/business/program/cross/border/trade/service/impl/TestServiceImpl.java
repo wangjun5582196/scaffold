@@ -1,11 +1,19 @@
 package com.business.program.cross.border.trade.service.impl;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.business.program.cross.border.trade.exception.BizException;
 import com.business.program.cross.border.trade.repository.dao.TestDao;
+import com.business.program.cross.border.trade.repository.po.TestTableA;
 import com.business.program.cross.border.trade.repository.po.XxlJobInfo;
 import com.business.program.cross.border.trade.service.interfaces.TestService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -14,33 +22,59 @@ public class TestServiceImpl implements TestService {
     @Resource
     private TestDao testDao;
 
-    @Override
-    public void addData() {
-        XxlJobInfo xxlJobInfo = new XxlJobInfo();
+    @Resource
+    @Lazy
+    private TestService self;
 
-        xxlJobInfo.setJobGroup(0);
-        xxlJobInfo.setJobDesc(UUID.randomUUID().toString());
-        xxlJobInfo.setAddTime(LocalDateTime.now());
-        xxlJobInfo.setUpdateTime(LocalDateTime.now());
-        xxlJobInfo.setAuthor("2");
-        xxlJobInfo.setAlarmEmail("3");
-        xxlJobInfo.setScheduleType("5");
-        xxlJobInfo.setScheduleConf("7");
-        xxlJobInfo.setMisfireStrategy("9");
-        xxlJobInfo.setExecutorRouteStrategy("19");
-        xxlJobInfo.setExecutorHandler("11");
-        xxlJobInfo.setExecutorParam("12");
-        xxlJobInfo.setExecutorBlockStrategy("13");
-        xxlJobInfo.setExecutorTimeout(0);
-        xxlJobInfo.setExecutorFailRetryCount(0);
-        xxlJobInfo.setGlueType("14");
-        xxlJobInfo.setGlueSource("15");
-        xxlJobInfo.setGlueRemark("16");
-        xxlJobInfo.setGlueUpdatetime(LocalDateTime.now());
-        xxlJobInfo.setChildJobid("17");
-        xxlJobInfo.setTriggerStatus(0);
-        xxlJobInfo.setTriggerLastTime(0L);
-        xxlJobInfo.setTriggerNextTime(0L);
-        testDao.addXXLJobInfo(xxlJobInfo);
+    @Override
+    @Transactional
+    public void addData() {
+        TestTableA testTableA = new TestTableA();
+        testTableA.setFundName("test"+UUID.randomUUID().toString());
+        testDao.addTestTableA(testTableA);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("nonexistentfile.txt"));
+        } catch (FileNotFoundException e) {
+            throw new BizException("文件不存在");
+        }
+
+        TestTableA testTableA2 = new TestTableA();
+        testTableA2.setFundName("test2"+UUID.randomUUID().toString());
+        testDao.addTestTableA(testTableA2);
+
     }
+
+    @Override
+    public void addData2() {
+        TestTableA testTableA = new TestTableA();
+        testTableA.setFundName("test"+ UUID.randomUUID());
+        testDao.addTestTableA(testTableA);
+
+        self.addData3();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("nonexistentfile.txt"));
+        } catch (FileNotFoundException e) {
+            throw new BizException("文件不存在");
+        }
+    }
+
+
+    @Override
+    @Transactional()
+    public void addData3() {
+        TestTableA testTableA = new TestTableA();
+        testTableA.setFundName("test"+ UUID.randomUUID());
+        testDao.addTestTableA(testTableA);
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("nonexistentfile.txt"));
+        } catch (FileNotFoundException e) {
+            throw new BizException("文件不存在");
+        }
+
+        TestTableA testTableA2 = new TestTableA();
+        testTableA2.setFundName("test2"+UUID.randomUUID().toString());
+        testDao.addTestTableA(testTableA2);
+    }
+    
+    
 }

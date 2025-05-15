@@ -15,7 +15,7 @@ public class TestController {
     @GetMapping("/add")
 
     public ResponseObject<Void> addData() {
-        testService.addData();
+        testService.addData2();
         return ResponseObject.success();
     }
 

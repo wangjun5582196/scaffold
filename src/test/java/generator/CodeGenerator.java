@@ -24,7 +24,7 @@ public class CodeGenerator {
      * RELA_PLAN,RELA_PLAN_DETAIL,RELA_TASK,RELA_TASK_DETAIL,RELA_PLAN_MANAGER,RELA_PLAN_MANAGER_DETAIL
      */
     private static String tables =
-            "xxl_job_info";
+            "TEST_TABLE_A,TEST_TABLE_B";
 
     /**
      * 排除的表.
@@ -33,7 +33,7 @@ public class CodeGenerator {
     };
 
     public static void main(String[] args) {
-        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai", "root", "hshome123")
+        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai", "root", "12345678")
                 .globalConfig(builder -> {
                     builder.author("wangjun51000") // 设置作者
                             // 开启 swagger 模式

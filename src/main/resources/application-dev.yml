@@ -22,9 +22,9 @@ spring:
       minimum-idle: 10
       pool-name: HikariCP
       validation-timeout: 1000
-    password: hshome123
+    password: 12345678
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
     username: root
   freemarker:
     charset: UTF-8
@@ -51,6 +51,8 @@ logging:
   config: classpath:log4j2.xml
   level:
     com.business.program.cross.border.trade.repository.mapper: debug
+    org.springframework.transaction.interceptor: DEBUG
+    org.springframework.jdbc.datasource.DataSourceTransactionManager: DEBUG
 
 
 
